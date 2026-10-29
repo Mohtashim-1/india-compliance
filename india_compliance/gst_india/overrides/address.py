@@ -81,9 +81,10 @@ def validate_state(doc):
         return
 
     if not doc.state:
-        doc.gst_state = None
-        doc.gst_state_number = None
-        return
+        frappe.throw(
+            _("State is a required field for Indian Address"),
+            title=_("Missing Mandatory Field"),
+        )
 
     if doc.state not in STATE_NUMBERS:
         frappe.throw(

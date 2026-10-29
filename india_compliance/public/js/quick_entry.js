@@ -46,6 +46,7 @@ class GSTQuickEntryForm extends frappe.ui.form.QuickEntryForm {
                 fieldname: "_pincode",
                 fieldtype: "Autocomplete",
                 ignore_validation: true,
+                reqd: 1,
             },
             {
                 fieldname: "address_line1",
@@ -74,12 +75,14 @@ class GSTQuickEntryForm extends frappe.ui.form.QuickEntryForm {
                 fieldname: "state",
                 fieldtype: "Select",
                 options: (frappe.boot.india_state_options || []).join("\n"),
+                reqd: 1,
             },
             {
                 fieldname: "country",
                 fieldtype: "Link",
                 options: "Country",
                 default: frappe.defaults.get_user_default("country"),
+                reqd: 1,
                 onchange: () => {
                     india_compliance.set_state_options(this.dialog);
                 },
