@@ -25,10 +25,8 @@ def get_property_setters(*, include_defaults=False):
             "doctype": "Address",
             "fieldname": "pincode",
             "property": "mandatory_depends_on",
-            "value": (
-                "eval: doc.country == 'India' &&"
-                "(gst_settings.enable_e_invoice || gst_settings.enable_e_waybill)"
-            ),
+            # Avoid bare gst_settings — not in depends_on eval scope until bundle sets window.gst_settings
+            "value": "eval:doc.country == 'India'",
         },
         {
             "doctype": "Address",

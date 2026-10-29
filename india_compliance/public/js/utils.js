@@ -30,7 +30,7 @@ const INWARD_SECTION_MAPPING = {
 
 frappe.provide("india_compliance");
 
-window.gst_settings = frappe.boot.gst_settings;
+window.gst_settings = frappe.boot.gst_settings || {};
 
 Object.assign(india_compliance, {
     MONTH: [
@@ -344,13 +344,19 @@ Object.assign(india_compliance, {
 
     set_state_options(frm) {
         const state_field = frm.get_field("state");
-        const country = frm.get_field("country").value;
+        if (!state_field) return;
+
+        // Select options come from Property Setter; Autocomplete uses set_data
+        if (state_field.df.fieldtype === "Select") return;
+
+        const country_field = frm.get_field("country");
+        const country = country_field && country_field.value;
         if (country !== "India") {
-            state_field.set_data([]);
+            if (state_field.set_data) state_field.set_data([]);
             return;
         }
 
-        state_field.set_data(frappe.boot.india_state_options || []);
+        if (state_field.set_data) state_field.set_data(frappe.boot.india_state_options || []);
     },
 
     get_state_from_gstin(gstin) {

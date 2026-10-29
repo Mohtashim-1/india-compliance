@@ -46,10 +46,12 @@ class GSTQuickEntryForm extends frappe.ui.form.QuickEntryForm {
                 fieldname: "_pincode",
                 fieldtype: "Autocomplete",
                 ignore_validation: true,
+                reqd: 1,
             },
             {
                 fieldname: "address_line1",
                 fieldtype: "Data",
+                reqd: 1,
             },
             {
                 fieldname: "address_line2",
@@ -67,17 +69,20 @@ class GSTQuickEntryForm extends frappe.ui.form.QuickEntryForm {
             {
                 fieldname: "city",
                 fieldtype: "Data",
+                reqd: 1,
             },
             {
                 fieldname: "state",
-                fieldtype: "Autocomplete",
-                ignore_validation: true,
+                fieldtype: "Select",
+                options: (frappe.boot.india_state_options || []).join("\n"),
+                reqd: 1,
             },
             {
                 fieldname: "country",
                 fieldtype: "Link",
                 options: "Country",
                 default: frappe.defaults.get_user_default("country"),
+                reqd: 1,
                 onchange: () => {
                     india_compliance.set_state_options(this.dialog);
                 },
@@ -249,7 +254,7 @@ class AddressQuickEntryForm extends GSTQuickEntryForm {
                 fieldname: "_address_title",
                 fieldtype: "Data",
                 default: this.doc.address_title,
-                mandatory_depends_on: "eval: !doc.link_name",
+                reqd: 1,
             },
         ];
     }
